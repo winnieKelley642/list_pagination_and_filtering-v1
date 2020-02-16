@@ -43,6 +43,9 @@ console.log(`list of students = ${listOfStudents}`);
 //variable to store the max number of students that can be shown per page (10)
 const numberOfStudentsPerPage = 10;
 
+//variable for figuring out what page the user is on
+let currentPageNumber;
+
 /*** 
    Create the `showPage` function to hide all of the items in the 
    list except for the ten you want to show.
@@ -116,6 +119,8 @@ const showPage = (listOfStudents, page) => {
    }
 }
 
+//call for showPage function
+showPage(listOfStudents, 1);
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
@@ -171,12 +176,72 @@ const showPage = (listOfStudents, page) => {
  * 
  */
 
- /**
+//Create appendPageLink function here
+const appendPageLink = (listOfStudents =>{
+   //Testing purposes:
+   console.log(`in the appendPageLinks function`);
+   console.log(`length of list of Students: $(listOfStudents.length) students`);
+   console.log(`number of students per page allowed: ${numberOfStudentsPerPage} students`);
+
+   //create a variable to store the total number of pages needed:
+   const numberOfPages = Math.ceil(listOfStudents / numberOfStudentsPerPage);
+   console.log(`number of pages needed for this list: ${numberOfPages} pages`);
+
+   //using lines 119 - 137 in examples/example-meets.html as a template:
+   //create a variable to get and store '.page' div
+   var pageDiv = document.querySelector('.page');
+   //create a div and give it a class 'pagiation'
+   var paginationDiv = document.createElement('div');
+   paginationDiv.setAttribute('class', 'pagination');
+   pageDiv.appendChild(paginationDiv);
+   console.log(`pagination div created and added to page`)
+
+   //create a 'ul' to add to 'pagination'
+   var ulPagination = document.createElement('ul');
+   ulPagination.setAttribute('class', 'paggination-ul');
+   paginationDiv.appendChild(ulPagination);
+   console.log(`ul added to pagination div`);
+
+   //create a loop to add 'li' and 'a' for each page
+   for(let i = 1; i <= numberOfPages; i++){
+      console.log(`in the for loop for creating 'li' and 'a' for each page`)
+
+      //create 'li' per page
+      var liPagination = document.createElement('li');
+      liPagination.setAttribute('class', 'pagination-li');
+      ulPagination.appendChild(liPagination);
+      console.log(`'li' added to 'ul'`);
+
+      //create 'a' per page and add page numbers
+      var aPagination = document.createElement('a');
+      aPagination.setAttribute('class', 'pagination-a');
+      console.log(`i in this loop is: ${i}`);
+      aPagination.textContent = (i);
+      liPagination.appendChild(aPagination);
+      console.log(`'a' added to 'li'`);
+      
+      // Create eventListener for when link is clicked
+      aPagination.addEventListener('click', (e) =>{
+         // Testing purposes only: 
+         console.log(`currently on page: ${aPagination}`);
+         console.log(`page ${currentPageNumber} was clicked`);
+
+         // Remove all active links
+         aPagination.classList.remove('.active');
+
+         //add active class to the link that was just clicked (use even.target)
+         // Create variable to store e.target
+         var buttonClicked = e.target;
+         buttonClicked.classList.add('active');
+         showPage(listOfStudents, i);
+      });
+   }
+}
+appendPageLink(listOfStudents); 
+/**
   * Program needs to work with any number of list. test using 44.students.html and 64students.html
   */
 
-  //Temporarily call showPage functino here just for testing purposes:
-  showPage(listOfStudents, 1);
  /**
   * Add Exceed expectation here after I complete meet 
   * expectations
