@@ -46,6 +46,66 @@ const numberOfStudentsPerPage = 10;
 //variable for figuring out what page the user is on
 let currentPageNumber = 1;
 
+//variable to store information for searching students
+let searchList = [];
+
+//create a search bar using lines 16 - 19 from examples/example-exceeds.html as a template
+//create a variable to get and store 'page-header'
+var pageHeaderDiv = document.querySelector('.page-header');
+console.log(pageHeaderDiv);
+
+//create and store search bar div as a 'student-search' class
+var studentSearchDiv = document.createElement('div');
+studentSearchDiv.setAttribute('class', 'student-search');
+pageHeaderDiv.appendChild(studentSearchDiv);
+
+//create and store input element with placeholder: 'Search for students'
+var userSearchInput = document.createElement('input');
+userSearchInput.setAttribute('placeholder', 'Search for students');
+studentSearchDiv.appendChild(userSearchInput);
+
+//create and store a search button
+const searchButton = document.createElement('button');
+searchButton.textContent = 'Search';
+studentSearchDiv.appendChild(searchButton);
+
+//add searchButton eventListener for click:
+searchButton.addEventListener('click', (e)=>{
+   console.log(`in search button event listener`);
+   search(searchList);
+   console.log(`completed search`)
+});
+
+//add input eventListener for up key:
+userSearchInput.addEventListener('keyup', (e) => {
+	console.log(`in keyup event listener`);
+});
+
+//function for search button
+const search = (searchList) =>{
+   console.log (`in search`);
+   //create a loop to compare user input to each student
+   for(let i = 0; i < listOfStudents.length; i++){
+      console.log(`in i loop for search`);
+      //get all the names in the list
+      var allNames = document.querySelectorAll('.student-details h3');
+      //create a variable to store a name one name at a time
+      var name = allNames[i];
+      console.log(`name is: ${name.textContent}`);
+      
+      console.log(`user input is ${userSearchInput.value}`);
+      //compare user input to list of students:
+      if(name.textContent.toLowerCase().includes(userSearchInput.value.toLowerCase())){
+         console.log(`comparing userInput to list`);
+         console.log(`there's a match`);
+         searchList.push(name);
+         console.log(`search list is now: ${searchList.length}`);
+         showPage(searchList, 1);
+      } else{
+         console.log(`does not match`);
+      }
+   }
+}
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
