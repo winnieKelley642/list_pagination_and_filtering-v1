@@ -84,27 +84,31 @@ userSearchInput.addEventListener('keyup', (e) => {
 //function for search button
 const search = (searchList) =>{
    console.log (`in search`);
+
+   //get all the names in the list
+   var allNames = document.querySelectorAll('.student-details h3');
+   console.log(`allNames = ${allNames}`);
    //create a loop to compare user input to each student
    for(let i = 0; i < listOfStudents.length; i++){
       console.log(`in i loop for search`);
-      //get all the names in the list
-      var allNames = document.querySelectorAll('.student-details h3');
       //create a variable to store a name one name at a time
       var name = allNames[i];
       console.log(`name is: ${name.textContent}`);
       
       console.log(`user input is ${userSearchInput.value}`);
+      
       //compare user input to list of students:
       if(name.textContent.toLowerCase().includes(userSearchInput.value.toLowerCase())){
          console.log(`comparing userInput to list`);
          console.log(`there's a match`);
-         searchList.push(name);
+         console.log(`current student: ${listOfStudents[i].textContent}`);
+         searchList.push(listOfStudents[i]);
          console.log(`search list is now: ${searchList.length}`);
-         showPage(searchList, 1);
       } else{
          console.log(`does not match`);
       }
    }
+   showPage(searchList, 1);
 }
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
@@ -163,15 +167,15 @@ const search = (searchList) =>{
 
  const appendPageLinks = (listOfStudents) => {
     //Testing
-    console.log(`appendPageLinksFunction working`);
-    console.log(`in the appendPageLinks function`);
-    console.log(`length of list of students: ${listOfStudents.length} students`);
-    console.log(`number of students per page allowed: ${numberOfStudentsPerPage} students`);
+   //  console.log(`appendPageLinksFunction working`);
+   //  console.log(`in the appendPageLinks function`);
+   //  console.log(`length of list of students: ${listOfStudents.length} students`);
+   //  console.log(`number of students per page allowed: ${numberOfStudentsPerPage} students`);
 
     //create a variable to store the total number of pages needed
     const numberOfPages = Math.ceil(listOfStudents.length / numberOfStudentsPerPage);
     //testing:
-    console.log(`number of pages needed for this list: ${numberOfPages} pages`);
+   //  console.log(`number of pages needed for this list: ${numberOfPages} pages`);
     
     //Using lines 119 - 137 in examples/example-meets.html as a template:
     //create a variable to get and store the '.page' div
@@ -188,10 +192,10 @@ const search = (searchList) =>{
 
     //create a loop to create 'li' and 'a' for each student
     //testing
-    console.log(`number of pages: ${numberOfPages}`);
+   //  console.log(`number of pages: ${numberOfPages}`);
     for(let i  = 1; i <= numberOfPages; i++)
     {
-      console.log(`in the loop for creating 'li' and 'a' for each student`);
+      // console.log(`in the loop for creating 'li' and 'a' for each student`);
 
       //create a variable to create and store 'li' in 'ulDiv' and give it class 'pagiation-li'
       var liPagination = document.createElement('li');
@@ -207,7 +211,7 @@ const search = (searchList) =>{
 
       //when the page initially loads, it should always start on page 1, so the active page should always start on page 1
       //testing
-      console.log(`current page number = ${currentPageNumber}`);
+      // console.log(`current page number = ${currentPageNumber}`);
 
       //make sure that active page is 1 and set the colour to it for being the active page
       if(currentPageNumber === 1){
@@ -222,11 +226,11 @@ const search = (searchList) =>{
     //Gather all the 'a' tags and store in a variable (suggested by @Juan L)
     const aLinks = document.querySelectorAll('a');
     //testing
-    console.log(aLinks);
+   //  console.log(aLinks);
 
     //create a loop(i) to add eventListeners for those a tags (suggested by @Juan L)
     for(let i = 0; i < aLinks.length; i++){
-       console.log(`in the i loop`)
+      //  console.log(`in the i loop`)
        // When a tag is clicked (suggested by @Juan L)
        aLinks[i].addEventListener('click', (e) =>{
           //Add an inner loop (j) to loop through all the 'a' tags to remove the classes (suggested by @Juan L)
@@ -238,7 +242,7 @@ const search = (searchList) =>{
              //create a variable to store the the 'a'
              const activePage = document.querySelector('.active');
              //testing
-             console.log(activePage);
+            //  console.log(activePage);
              
              //remove the 'active' by changing it to ''(suggested by @Juan L)
              activePage.className = ('');
@@ -254,7 +258,7 @@ const search = (searchList) =>{
           //update current page number to pass into the showPage function
           currentPageNumber = buttonClicked.textContent;
           //testing
-          console.log(`page number is: ${currentPageNumber}`);
+         //  console.log(`page number is: ${currentPageNumber}`);
 
           //add 'active' class onto the button clicked
           buttonClicked.className = 'active';
@@ -313,25 +317,26 @@ const showPage = (listOfStudents, page) => {
    const startIndex = (page * numberOfStudentsPerPage) - numberOfStudentsPerPage;
    const endIndex = (page * numberOfStudentsPerPage);
 
-   console.log(`Succeffully called the function`);
-   console.log(`Before going into the loop:`);
-   console.log(`# of students in listOfStudents: ${listOfStudents.length}`)
-   console.log(`page: ${page}`);
-   console.log(`numberOfStudentsPerPage: ${numberOfStudentsPerPage}`);
-   console.log(`startIndex: ${startIndex}`);
+   // console.log(`Succeffully called the function`);
+   // console.log(`Before going into the loop:`);
+   // console.log(`# of students in listOfStudents: ${listOfStudents.length}`)
+   // console.log(`page: ${page}`);
+   // console.log(`numberOfStudentsPerPage: ${numberOfStudentsPerPage}`);
+   // console.log(`startIndex: ${startIndex}`);
 
    //create a loop that will loop over the list
    for (let i = 0; i < listOfStudents.length; i++){
-      console.log(`in the first loop of the showPage function`);
+      // console.log(`in the first loop of the showPage function`);
      // consolee.log (`i is: ${i}`);
       //create an if statement to check to see where we are in the loop so we can display 10 students and hide the rest
       if ( i >= startIndex && i < endIndex){
-         console.log(`the loop is within the start and end index.`);
+         // console.log(`the loop is within the start and end index.`);
          //display these students
+         console.log(`list of students = ${listOfStudents[i].textContent}`);
          listOfStudents[i].style.display = '';
-         console.log(`i is now ${i}`);
+         // console.log(`i is now ${i}`);
       } else{
-         console.log(`This is outside the number of students display on each page`);
+         // console.log(`This is outside the number of students display on each page`);
          //hide the students beyound the 10 that's being displayed
          listOfStudents[i].style.display = 'none';
       }
