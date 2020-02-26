@@ -46,11 +46,11 @@ const numberOfStudentsPerPage = 10;
 //variable for figuring out what page the user is on
 let currentPageNumber = 1;
 
-//variable to store information for searching students
-let searchList = [];
+//create a variable to get and store the '.page' div
+var pageDiv = document.querySelector('.page');
 
-//empty list for removing all pages for no results found
-let emptyList = [];
+//create a div and store it for no match found message
+const noMatchesFoundDiv = document.createElement('div');
 
 //create a search bar using lines 16 - 19 from examples/example-exceeds.html as a template
 //create a variable to get and store 'page-header'
@@ -75,21 +75,22 @@ studentSearchDiv.appendChild(searchButton);
 //add searchButton eventListener for click:
 searchButton.addEventListener('click', (e)=>{
    console.log(`in search button event listener`);
-   search(searchList);
+   search(userSearchInput.value);
    console.log(`completed search`)
 });
 
 //add input eventListener for up key:
 userSearchInput.addEventListener('keyup', (e) => {
    console.log(`in keyup event listener`);
-   search(searchList);
+   search(e.target.value);
    console.log(`keyup search complete`);
 });
 
 //function for search button
-const search = (searchList) =>{
+const search = (userInputValue) =>{
    console.log (`in search`);
-
+   //variable to store information for searching students
+   let searchList = [];
    //get all the names in the list
    var allNames = document.querySelectorAll('.student-details h3');
    console.log(`allNames = ${allNames}`);
@@ -109,8 +110,7 @@ const search = (searchList) =>{
          console.log(`comparing userInput to list`);
          console.log(`there's a match`);
          console.log(`current student: ${listOfStudents[i].textContent}`);
-         //hide all students
-         showPage(emptyList, 0);
+ 
          //hide all page links
          appendPageLinks(emptyList);
          searchList.push(listOfStudents[i]);
@@ -118,9 +118,8 @@ const search = (searchList) =>{
       } else{
          console.log(`does not match`);
       }
-      showPage(searchList, 1);
    }
-   appendPageLinks(searchList);
+   showPage(searchList, 1);
 }
 
 /*** 
@@ -166,11 +165,17 @@ const search = (searchList) =>{
 
 //DISPLAYING A PAGE:
 //Create a function showPage, that has two parameters (list, page) 
-const showPage = (listOfStudents, page) => {
+const showPage = (anyList, page) => {
    //create 2 variables startIndex and endIndex so that this will work for any length list of students (variables and list provided by Treehouse)
    const startIndex = (page * numberOfStudentsPerPage) - numberOfStudentsPerPage;
    const endIndex = (page * numberOfStudentsPerPage);
-
+   console.log(`show page anyList = ${anyList}`);
+   if(anyList.length === 0){
+      noMatchesFoundDiv.style.display = '';
+      noMatchesFoundDiv.textContent = "Sorry. There are no matches found. Please try again."
+         //add this to pageDiv
+         pageDiv.appendChild(noMatchesFoundDiv);
+   }
    // console.log(`Succeffully called the function`);
    // console.log(`Before going into the loop:`);
    // console.log(`# of students in listOfStudents: ${listOfStudents.length}`)
@@ -179,20 +184,20 @@ const showPage = (listOfStudents, page) => {
    // console.log(`startIndex: ${startIndex}`);
 
    //create a loop that will loop over the list
-   for (let i = 0; i < listOfStudents.length; i++){
+   for (let i = 0; i < anyList.length; i++){
       // console.log(`in the first loop of the showPage function`);
      // consolee.log (`i is: ${i}`);
       //create an if statement to check to see where we are in the loop so we can display 10 students and hide the rest
       if ( i >= startIndex && i < endIndex){
          // console.log(`the loop is within the start and end index.`);
          //display these students
-         console.log(`list of students = ${listOfStudents[i].textContent}`);
-         listOfStudents[i].style.display = '';
+         console.log(`list of students = ${anyList[i].textContent}`);
+         anyList[i].style.display = '';
          // console.log(`i is now ${i}`);
       } else{
          // console.log(`This is outside the number of students display on each page`);
          //hide the students beyound the 10 that's being displayed
-         listOfStudents[i].style.display = 'none';
+         anyList[i].style.display = 'none';
       }
    }
 }
