@@ -112,7 +112,7 @@ const search = (userInputValue) =>{
          console.log(`current student: ${listOfStudents[i].textContent}`);
  
          //hide all page links
-         appendPageLinks(emptyList);
+        // appendPageLinks(emptyList);
          searchList.push(listOfStudents[i]);
          console.log(`search list is now: ${searchList.length}`);
       } else{
