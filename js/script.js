@@ -120,6 +120,7 @@ const search = (userInputValue) =>{
       }
    }
    showPage(searchList, 1);
+   appendPageLinks(searchList);
 }
 
 /*** 
@@ -264,6 +265,13 @@ const appendPageLinks = (listOfStudents) => {
   //  console.log(`length of list of students: ${listOfStudents.length} students`);
   //  console.log(`number of students per page allowed: ${numberOfStudentsPerPage} students`);
 
+  //hide pagination
+  const clearPagination = document.querySelectorAll('.pagination');
+  console.log(`length = ${clearPagination.length}`);
+  if (clearPagination){
+     clearPagination.remove();
+  }
+
    //create a variable to store the total number of pages needed
    const numberOfPages = Math.ceil(listOfStudents.length / numberOfStudentsPerPage);
    //testing:
@@ -276,7 +284,7 @@ const appendPageLinks = (listOfStudents) => {
    var paginationDiv = document.createElement('div');
    paginationDiv.setAttribute('class', 'pagination');
    pageDiv.appendChild(paginationDiv);
-
+   
    //create variable to create a 'ul' in paginationDiv and give it a class of 'pagination-ul'
    var ulDiv = document.createElement('ul');
    ulDiv.setAttribute('class', 'pagination-ul');
@@ -312,7 +320,6 @@ const appendPageLinks = (listOfStudents) => {
         currentPageNumber++;
      }
    }
-
    //So this is to make sure that the active is cleared out of all buttons and assigned to the one that's pressed, but I was having a lot of trouble. After getting help on Slack, @Juan L, helped by giving me a little bit of a psuedo code for this part to fix my issues
 
    //Gather all the 'a' tags and store in a variable (suggested by @Juan L)
